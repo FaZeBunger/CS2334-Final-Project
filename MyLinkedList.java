@@ -114,7 +114,7 @@ public class MyLinkedList<T> {
      * @params index the index at which to remove the node.
      * @throws IndexOutOfBoundsException if (index < 0 || index >= size())
      **/
-    public void remove(int index) throws IndexOutOfBoundsException {
+    public T remove(int index) throws IndexOutOfBoundsException {
         Node<T> curr_node = this.head;
 
         if (!validIndex(index)) {
@@ -130,7 +130,7 @@ public class MyLinkedList<T> {
 
                 removed_node.setNext(null);
                 curr_node.setNext(new_next);
-                return;
+                return removed_node.getValue();
             }
             curr_node = curr_node.getNext();
             idx++;
