@@ -1,11 +1,9 @@
 public class Node<T> {
     private T value;
     private Node<T> nextNode;
-    private int idx;
 
-    public Node(T value, int idx) {
+    public Node(T value) {
         this.value = value;
-        this.idx = idx;
         this.nextNode = null;
     }
 
@@ -26,9 +24,5 @@ public class Node<T> {
 
     public Node<T> getNext() {
         return this.nextNode;
-    }
-
-    public int getIdx() {
-        return this.idx;
     }
 }

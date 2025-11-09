@@ -1,16 +1,18 @@
 /**
- * Uses 0-based indexing.
- * 
- * TODO: Add the insert method
+ * Notes: Nodes are stored using 0-based indexing.
  **/
 public class MyLinkedList<T> {
     private Node<T> head;
     private Node<T> tail;
-    private int size = -1;
+    private int size = 0;
 
     public MyLinkedList() {
         this.head = null;
         this.tail = this.head;
+    }
+
+    public Node<T> getHead() {
+        return this.head;
     }
 
     /**
@@ -18,9 +20,12 @@ public class MyLinkedList<T> {
      **/
     public void print() {
         Node<T> curr_node = this.head;
+
+        int idx = 0;
         while (curr_node.hasNext()) {
             curr_node = curr_node.getNext();
-            System.out.println("Value: " + curr_node.getValue() + " Idx: " + curr_node.getIdx());
+            System.out.println("Value: " + curr_node.getValue() + " Idx: " + idx);
+            idx++;
         }
     }
 
@@ -29,8 +34,8 @@ public class MyLinkedList<T> {
      **/
     public void add(T value) {
         this.size++;
-        Node<T> newNode = new Node<T>(value, this.size);
-        if (size == 0 || this.head == null) {
+        Node<T> newNode = new Node<T>(value);
+        if (this.head == null) {
             this.head = newNode;
             this.tail = newNode;
         } else {
@@ -51,17 +56,24 @@ public class MyLinkedList<T> {
     }
 
     /**
-     * Gets the value at some index in the LinkedList
+     * Gets the value at index n
+     * 
+     * @param n index to get value of
+     * @throws IndexOutOfBoundsException if (index < 0 || index >= size())
      **/
-    public T get(int index) {
+    public T get(int n) throws IndexOutOfBoundsException {
+
+        if (n < 0 || n >= this.size)
+            throw new IndexOutOfBoundsException();
+
         int curr_idx = 0;
         Node<T> curr_node = this.head;
-        if (!validIndex(index)) {
-            String msg = String.format("LinkedList of size %d has no value at index: %d", this.size, index);
+        if (!validIndex(n)) {
+            String msg = String.format("LinkedList of size %d has no value at index: %d", this.size, n);
             throw new IndexOutOfBoundsException(msg);
         }
         while (curr_node.hasNext()) {
-            if (curr_idx == index) {
+            if (curr_idx == n) {
                 return curr_node.getValue();
             }
             curr_idx++;
@@ -72,13 +84,37 @@ public class MyLinkedList<T> {
         return null;
     }
 
-    public void insert(int index) {
+    /**
+     * Inserts a new node with some value at index n, shifting all other values to
+     * the right.
+     *
+     * @param n     index to insert at
+     * @param value value to initialize new node with.
+     **/
+    public void insert(int n, T value) {
+        Node<T> new_node = new Node<T>(value);
+        Node<T> curr_node = this.head;
+
+        // Find the index before n, and set its next to our new node.
+        int idx = 0;
+        while (curr_node.hasNext()) {
+            if (idx == n - 1) {
+                Node<T> next_node = curr_node.getNext();
+                new_node.setNext(next_node);
+                curr_node.setNext(new_node);
+            }
+            curr_node = curr_node.getNext();
+            idx++;
+        }
     }
 
     /**
      * Gets the value at some index in the LinkedList
+     * 
+     * @params index the index at which to remove the node.
+     * @throws IndexOutOfBoundsException if (index < 0 || index >= size())
      **/
-    public void remove(int index) {
+    public void remove(int index) throws IndexOutOfBoundsException {
         Node<T> curr_node = this.head;
 
         if (!validIndex(index)) {
@@ -86,8 +122,9 @@ public class MyLinkedList<T> {
             throw new IndexOutOfBoundsException(msg);
         }
 
+        int idx = 0;
         while (curr_node.hasNext()) {
-            if (curr_node.getIdx() + 1 == index) {
+            if (idx == index - 1) {
                 Node<T> removed_node = curr_node.getNext();
                 Node<T> new_next = removed_node.getNext();
 
@@ -96,6 +133,7 @@ public class MyLinkedList<T> {
                 return;
             }
             curr_node = curr_node.getNext();
+            idx++;
         }
 
         String msg = String.format("LinkedList has no value at index: %d", index);
