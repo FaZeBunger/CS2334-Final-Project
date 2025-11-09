@@ -75,7 +75,7 @@ public class LinkedListTests {
         ll.add(4);
         ll.add(5);
 
-        ll.remove(3);
+        int removed_value = ll.remove(3);
 
         int val = ll.get(3);
         if (val != 4) {

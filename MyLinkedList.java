@@ -15,6 +15,10 @@ public class MyLinkedList<T> {
         return this.head;
     }
 
+    public int getSize() {
+        return this.size;
+    }
+
     /**
      * Prints all values in order
      **/
@@ -33,7 +37,6 @@ public class MyLinkedList<T> {
      * Appends to the end of the list
      **/
     public void add(T value) {
-        this.size++;
         Node<T> newNode = new Node<T>(value);
         if (this.head == null) {
             this.head = newNode;
@@ -42,7 +45,7 @@ public class MyLinkedList<T> {
             this.tail.setNext(newNode);
             this.tail = newNode;
         }
-
+        this.size++;
     }
 
     /**
@@ -109,34 +112,49 @@ public class MyLinkedList<T> {
     }
 
     /**
-     * Gets the value at some index in the LinkedList
+     * Removes the node at a specified index in the LinkedList.
      * 
-     * @params index the index at which to remove the node.
+     * @param index the index at which to remove the node.
+     * @return The value of the removed node.
      * @throws IndexOutOfBoundsException if (index < 0 || index >= size())
      **/
     public T remove(int index) throws IndexOutOfBoundsException {
-        Node<T> curr_node = this.head;
-
         if (!validIndex(index)) {
-            String msg = String.format("LinkedList of size %d has no value at index: %d", this.size, index);
+            String msg = String.format("Cannot remove from index %d in a list of size %d.", index, this.size);
             throw new IndexOutOfBoundsException(msg);
         }
 
-        int idx = 0;
-        while (curr_node.hasNext()) {
-            if (idx == index - 1) {
-                Node<T> removed_node = curr_node.getNext();
-                Node<T> new_next = removed_node.getNext();
+        T removedValue;
 
-                removed_node.setNext(null);
-                curr_node.setNext(new_next);
-                return removed_node.getValue();
+        // Case 1: Removing the head of the list.
+        if (index == 0) {
+            removedValue = this.head.getValue();
+            this.head = this.head.getNext();
+            // If the list is now empty, the tail must also be null.
+            if (this.head == null) {
+                this.tail = null;
             }
-            curr_node = curr_node.getNext();
-            idx++;
+        } else {
+            // Case 2: Removing from the middle or the end.
+            // Find the node *before* the one we want to remove.
+            Node<T> previousNode = this.head;
+            for (int i = 0; i < index - 1; i++) {
+                previousNode = previousNode.getNext();
+            }
+
+            Node<T> removedNode = previousNode.getNext();
+            removedValue = removedNode.getValue();
+
+            // Unlink the removed node.
+            previousNode.setNext(removedNode.getNext());
+
+            // Case 2a: If we just removed the tail, update the tail reference.
+            if (previousNode.getNext() == null) {
+                this.tail = previousNode;
+            }
         }
 
-        String msg = String.format("LinkedList has no value at index: %d", index);
-        throw new IndexOutOfBoundsException(msg);
+        this.size--;
+        return removedValue;
     }
 }

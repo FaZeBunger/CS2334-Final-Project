@@ -28,14 +28,14 @@ public class GetLinkedListData {
         long doubleRemovalTime = getRemovalTime(doubleList);
         long stringRemovalTime = getRemovalTime(stringList);
 
-        System.out.println("Random Removal Time" + DATA_SIZE + " Doubles: " + doubleRemovalTime + " ns");
+        System.out.println("Random Removal Time " + DATA_SIZE + " Doubles: " + doubleRemovalTime + " ns");
         System.out.println("Random Removal Time " + DATA_SIZE + " Strings: " + stringRemovalTime + " ns");
 
         // Get traversal time for both lists
         long doubleInsertionTime = getInsertionTime(doubleList, DataGenerator::generateDouble);
         long stringInsertionTime = getInsertionTime(stringList, DataGenerator::generateString);
 
-        System.out.println("Random Insertion Time" + DATA_SIZE + " Doubles: " + doubleInsertionTime + " ns");
+        System.out.println("Random Insertion Time " + DATA_SIZE + " Doubles: " + doubleInsertionTime + " ns");
         System.out.println("Random Insertion Time " + DATA_SIZE + " Strings: " + stringInsertionTime + " ns");
     }
 
@@ -72,8 +72,8 @@ public class GetLinkedListData {
 
         long loop_start_time = System.nanoTime();
         list.remove(0); // Remove first
-        list.remove(DATA_SIZE - 1); // Remove last
-        list.remove(random.nextInt(DATA_SIZE)); // Remove somewhere random in the list
+        list.remove(list.getSize() - 1); // Remove last
+        list.remove(random.nextInt(list.getSize())); // Remove somewhere random in the list
         long loop_end_time = System.nanoTime();
 
         return loop_end_time - loop_start_time;
