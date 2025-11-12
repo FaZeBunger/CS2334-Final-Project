@@ -2,7 +2,7 @@ import java.util.function.Supplier;
 import java.util.Random;
 
 public class GetLinkedListData {
-    static final int DATA_SIZE = 10_000;
+    static final int DATA_SIZE = 500_000;
     static final int NUM_RAND_LOOKUPS = 100;
 
     public static void main(String[] args) {
