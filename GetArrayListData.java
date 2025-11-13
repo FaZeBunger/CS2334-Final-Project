@@ -74,8 +74,8 @@ public class GetArrayListData {
 
         long loop_start_time = System.nanoTime();
         list.remove(0); // Remove first
-        list.remove(list.getSize() - 1); // Remove last
-        list.remove(random.nextInt(list.getSize())); // Remove somewhere random in the list
+        list.remove(list.size() - 1); // Remove last
+        list.remove(random.nextInt(list.size())); // Remove somewhere random in the list
         long loop_end_time = System.nanoTime();
 
         return loop_end_time - loop_start_time;
@@ -112,7 +112,7 @@ public class GetArrayListData {
      */
     public static <E> long getSequentialTime(MyArrayList<E> list) {
         long startTime = System.nanoTime();
-        for (int i = 0; i < list.getSize(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             list.get(i);
         }
         long endTime = System.nanoTime();

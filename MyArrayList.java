@@ -96,12 +96,6 @@ public class MyArrayList<T> {
         if (index < 0 || index > size)
             throw new IndexOutOfBoundsException("Index is outside range (index < 0 || index > size())");
 
-        System.out.println(
-                "Single add starting data: \n" +
-                        "Timestamp: " + System.nanoTime() + " ns\n" +
-                        "Total memory used: " + Runtime.getRuntime().totalMemory() + " Mb\n" +
-                        "Total free memory: " + Runtime.getRuntime().freeMemory() + " Mb\n");
-
         if (size >= array.length)
             grow();
 
@@ -112,11 +106,6 @@ public class MyArrayList<T> {
         array[index] = el;
         size++;
 
-        System.out.println(
-                "Ending data: \n" +
-                        "Timestamp: " + System.nanoTime() + " ns\n" +
-                        "Total memory used: " + Runtime.getRuntime().totalMemory() + " Mb\n" +
-                        "Total free memory: " + Runtime.getRuntime().freeMemory() + " Mb\n");
     }
 
     /**
@@ -133,18 +122,9 @@ public class MyArrayList<T> {
         if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException("Index is outside range (index , 0 || index >= size())");
 
-        System.out.println(
-                "Single get starting data: \n" +
-                        "Timestamp: " + System.nanoTime() + " ns\n" +
-                        "Total memory used: " + Runtime.getRuntime().totalMemory() + " Mb\n" +
-                        "Total free memory: " + Runtime.getRuntime().freeMemory() + " Mb\n");
 
         T output = (T) array[index];
-        System.out.println(
-                "Single get ending data: \n" +
-                        "Timestamp: " + System.nanoTime() + " ns\n" +
-                        "Total memory used: " + Runtime.getRuntime().totalMemory() + " Mb\n" +
-                        "Total free memory: " + Runtime.getRuntime().freeMemory() + " Mb\n");
+
         return output;
     }
 
@@ -162,12 +142,6 @@ public class MyArrayList<T> {
         if (index < 0 || index > size)
             throw new IndexOutOfBoundsException("Index is outside range (index , 0 || index >= size())");
 
-        System.out.println(
-                "Single remove starting data: \n" +
-                        "Timestamp: " + System.nanoTime() + " ns\n" +
-                        "Total memory used: " + Runtime.getRuntime().totalMemory() + " Mb\n" +
-                        "Total free memory: " + Runtime.getRuntime().freeMemory() + " Mb\n");
-
         @SuppressWarnings("unchecked")
         T removedElement = (T) array[index];
 
@@ -178,11 +152,6 @@ public class MyArrayList<T> {
         array[size - 1] = null;
         size--;
 
-        System.out.println(
-                "Single remove ending data: \n" +
-                        "Timestamp: " + System.nanoTime() + " ns\n" +
-                        "Total memory used: " + Runtime.getRuntime().totalMemory() + " Mb\n" +
-                        "Total free memory: " + Runtime.getRuntime().freeMemory() + " Mb\n");
 
         return removedElement;
     }
