@@ -15,7 +15,8 @@ public class GetLinkedListData {
         long stringSequentialTime = getSequentialTime(stringList);
 
         System.out.println("Time to traverse " + DATA_SIZE + " Doubles: " + doubleSequentialTime + " ns");
-        System.out.println("Time to traverse " + DATA_SIZE + " Strings: " + stringSequentialTime + " ns");
+        System.out.println("Time to traverse " + DATA_SIZE + " Strin// traversal time for both listsgs: "
+                + stringSequentialTime + " ns");
 
         // Get traversal time for both lists
         long doubleRandomTime = getRandomTime(doubleList);
@@ -23,8 +24,6 @@ public class GetLinkedListData {
 
         System.out.println("Random Lookup Time " + DATA_SIZE + " Doubles: " + doubleRandomTime + " ns");
         System.out.println("Random Lookup Time " + DATA_SIZE + " Strings: " + stringRandomTime + " ns");
-
-        // Get traversal time for both lists
         long doubleRemovalTime = getRemovalTime(doubleList);
         long stringRemovalTime = getRemovalTime(stringList);
 
