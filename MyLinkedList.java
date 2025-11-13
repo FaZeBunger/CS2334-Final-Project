@@ -26,9 +26,9 @@ public class MyLinkedList<T> {
         Node<T> curr_node = this.head;
 
         int idx = 0;
-        while (curr_node.hasNext()) {
-            curr_node = curr_node.getNext();
+        while (curr_node != null) {
             System.out.println("Value: " + curr_node.getValue() + " Idx: " + idx);
+            curr_node = curr_node.getNext();
             idx++;
         }
     }
@@ -69,22 +69,11 @@ public class MyLinkedList<T> {
         if (n < 0 || n >= this.size)
             throw new IndexOutOfBoundsException();
 
-        int curr_idx = 0;
         Node<T> curr_node = this.head;
-        if (!validIndex(n)) {
-            String msg = String.format("LinkedList of size %d has no value at index: %d", this.size, n);
-            throw new IndexOutOfBoundsException(msg);
-        }
-        while (curr_node.hasNext()) {
-            if (curr_idx == n) {
-                return curr_node.getValue();
-            }
-            curr_idx++;
+        for (int i = 0; i < n; i++) {
             curr_node = curr_node.getNext();
         }
-
-        // This should never happen.
-        return null;
+        return curr_node.getValue();
     }
 
     /**
@@ -95,20 +84,30 @@ public class MyLinkedList<T> {
      * @param value value to initialize new node with.
      **/
     public void insert(int n, T value) {
-        Node<T> new_node = new Node<T>(value);
-        Node<T> curr_node = this.head;
-
-        // Find the index before n, and set its next to our new node.
-        int idx = 0;
-        while (curr_node.hasNext()) {
-            if (idx == n - 1) {
-                Node<T> next_node = curr_node.getNext();
-                new_node.setNext(next_node);
-                curr_node.setNext(new_node);
-            }
-            curr_node = curr_node.getNext();
-            idx++;
+        if (n < 0 || n > this.size) {
+            throw new IndexOutOfBoundsException();
         }
+
+        Node<T> new_node = new Node<T>(value);
+
+        if (n == 0) {
+            new_node.setNext(this.head);
+            this.head = new_node;
+            if (this.size == 0) {
+                this.tail = new_node;
+            }
+        } else {
+            Node<T> curr_node = this.head;
+            for (int i = 0; i < n - 1; i++) {
+                curr_node = curr_node.getNext();
+            }
+            new_node.setNext(curr_node.getNext());
+            curr_node.setNext(new_node);
+            if (n == this.size) {
+                this.tail = new_node;
+            }
+        }
+        this.size++;
     }
 
     /**
@@ -119,36 +118,27 @@ public class MyLinkedList<T> {
      * @throws IndexOutOfBoundsException if (index < 0 || index >= size())
      **/
     public T remove(int index) throws IndexOutOfBoundsException {
-        if (!validIndex(index)) {
+        if (index < 0 || index >= this.size) {
             String msg = String.format("Cannot remove from index %d in a list of size %d.", index, this.size);
             throw new IndexOutOfBoundsException(msg);
         }
 
         T removedValue;
 
-        // Case 1: Removing the head of the list.
         if (index == 0) {
             removedValue = this.head.getValue();
             this.head = this.head.getNext();
-            // If the list is now empty, the tail must also be null.
             if (this.head == null) {
                 this.tail = null;
             }
         } else {
-            // Case 2: Removing from the middle or the end.
-            // Find the node *before* the one we want to remove.
             Node<T> previousNode = this.head;
             for (int i = 0; i < index - 1; i++) {
                 previousNode = previousNode.getNext();
             }
-
             Node<T> removedNode = previousNode.getNext();
             removedValue = removedNode.getValue();
-
-            // Unlink the removed node.
             previousNode.setNext(removedNode.getNext());
-
-            // Case 2a: If we just removed the tail, update the tail reference.
             if (previousNode.getNext() == null) {
                 this.tail = previousNode;
             }
